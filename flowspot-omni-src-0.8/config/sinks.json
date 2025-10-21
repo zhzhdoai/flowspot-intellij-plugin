@@ -1,0 +1,873 @@
+[
+  {
+    "name": "CODE_INJECTION",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "代码执行",
+    "description": "Code Execution vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*javax\\.script\\.ScriptEngine\\.eval.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*groovy\\.lang\\.GroovyShell\\.evaluate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*groovy\\.lang\\.GroovyShell\\.parse.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.sql\\.DriverManager\\.getConnection.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.el\\.ExpressionFactory\\.createValueExpression.*",
+            "taintedParams": ["2"]
+          },
+          {
+            "method": ".*buildConstraintViolationWithTemplate.*",
+            "taintedParams": ["2"]
+          },
+          {
+            "method": ".*XMLSignature\\.checkSignatureValue.*",
+            "taintedParams": ["2"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "CODE_IJJJJ",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "代码执行",
+    "description": "Code Execution vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*XMLSignature\\.expression.*",
+            "taintedParams": ["2"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "DESERIALIZATION",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "反序列化",
+    "description": "DESERIALIZATION vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*java\\.io\\.ObjectInputStream\\.readUnshared.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.beans\\.XMLDecoder\\.readObject.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*javax\\.xml\\.bind\\.Unmarshaller\\.unmarshal.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*com\\.thoughtworks\\.xstream\\.XStream\\.fromXML.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.yaml\\.snakeyaml\\.Yaml\\.load.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "COMMAND_INJECTION",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "命令执行",
+    "description": "Command Injection vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*java\\.lang\\.Runtime\\.exec.*",
+            "taintedParams": [""]
+          },
+          {
+            "method": ".*java\\.lang\\.ProcessBuilder\\.start.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.lang\\.ProcessBuilder\\.command.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "JNDI",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "JNDI注入",
+    "description": "LDAP vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": "javax\\.naming\\.ldap\\.LdapName\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.Context\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.directory\\.DirContext\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.directory\\.DirContext\\.search.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.directory\\.InitialDirContext\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.directory\\.InitialDirContext\\.search.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.ldap\\.LdapContext\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.ldap\\.LdapContext\\.search.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.ldap\\.InitialLdapContext\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.ldap\\.InitialLdapContext\\.search.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.event\\.EventDirContext\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.naming\\.event\\.EventDirContext\\.search.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.sun\\.jndi\\.ldap\\.LdapCtx\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.sun\\.jndi\\.ldap\\.LdapCtx\\.search.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.unboundid\\.ldap\\.sdk\\.LDAPConnection\\.search.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.ldap\\.core\\.LdapTemplate\\.list.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.ldap\\.core\\.LdapTemplate\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.ldap\\.core\\.LdapTemplate\\.search.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.ldap\\.core\\.LdapOperations\\.list.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.ldap\\.core\\.LdapOperations\\.lookup.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.ldap\\.core\\.LdapOperations\\.search.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "PLUGIN_RCE",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "插件RCE",
+    "description": "Hutool",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*Hutool.*",
+            "taintedParams": [""]
+          },
+          {
+            "method": ".*ewebeditor.*",
+            "taintedParams": [""]
+          },
+          {
+            "method": ".*DBStep.*",
+            "taintedParams": [""]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.lang\\.SerializationUtils\\.deserialize.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*JexlEngine\\.createExpression.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "REQUEST_DISPATCHER",
+    "typeName": "CALL",
+    "priority": 5,
+    "category": "路径遍历",
+    "description": "路径遍历漏洞",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*javax\\.servlet\\.http\\.HttpServletRequest\\.getRequestDispatcher.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "SPRING_FRAMEWORK_RCE",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "框架RCE",
+    "description": "Spring Framework Remote Code Execution vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*org\\.springframework\\.expression\\.spel\\.standard\\.SpelExpressionParser\\.parseExpression.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.beans\\.factory\\.support\\.BeanDefinitionBuilder\\.genericBeanDefinition.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.web\\.bind\\.WebDataBinder\\.setDisallowedFields.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.web\\.bind\\.WebDataBinder\\.setAllowedFields.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.web\\.context\\.support\\.FileSystemXmlApplicationContext.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.web\\.context\\.support\\.ClassPathXmlApplicationContext.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.expression\\.ExpressionParser\\.parseExpression.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.expression\\.common\\.TemplateAwareExpressionParser\\.parseExpression.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "XXE",
+    "typeName": "CALL",
+    "priority": 5,
+    "category": "XXE注入",
+    "description": "XML External Entity (XXE) vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*javax\\.xml\\.parsers\\.DocumentBuilder\\.parse.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*javax\\.xml\\.parsers\\.SAXParser\\.parse.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.xml\\.sax\\.XMLReader\\.parse.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.dom4j\\.io\\.SAXReader\\.read.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.jdom2\\.input\\.SAXBuilder\\.build.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*javax\\.xml\\.stream\\.XMLStreamReader\\.next.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.digester3\\.Digester\\.parse.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "WRITE_FILE",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "文件写入",
+    "description": "write sinks",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*java\\.io\\.FileOutputStream\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.io\\.FileWriter\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.newOutputStream.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.write.*",
+            "taintedParams": ["1"]
+          },
+
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.copy.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.move.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.createFile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.createDirectory.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.createDirectories.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.channels\\.FileChannel\\.open.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.channels\\.FileChannel\\.write.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.io\\.PrintWriter\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.util\\.zip\\.ZipOutputStream\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.util\\.zip\\.GZIPOutputStream\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.util\\.Properties\\.store.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*javax\\.xml\\.transform\\.Transformer\\.transform.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.writeStringToFile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.writeByteArrayToFile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.writeLines.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.core\\.io\\.WritableResource\\.getOutputStream.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.StandardOpenOption\\.WRITE.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.StandardOpenOption\\.APPEND.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.FileSystemProvider\\.newOutputStream.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.write.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.writeByteArrayToFile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.writeLines.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.writeStringToFile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.copyFile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.copyDirectory.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.moveFile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.moveDirectory.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.deleteDirectory.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.forceDelete.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.touch.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*transferTo.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "READ_FILE",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "文件读取",
+    "description": "read sinks",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": ".*java\\.io\\.FileInputStream\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.io\\.RandomAccessFile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.io\\.FileReader\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.newInputStream.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.readAllBytes.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.readFileToString.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.apache\\.commons\\.io\\.FileUtils\\.readFileToByteArray.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*org\\.springframework\\.core\\.io\\.FileSystemResource\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.readAllLines.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": ".*java\\.nio\\.file\\.Files\\.readAttributes.*",
+            "taintedParams": ["1"]
+          },          {
+            "method": ".*NetUtil\\.downloadBytes.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "SSRF",
+    "typeName": "CALL",
+    "priority": 5,
+    "category": "SSRF",
+    "description": "Server-Side Request Forgery vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": "java\\.net\\.URL\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.URI\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.HttpURLConnection\\.connect.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.URLConnection\\.connect.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.HttpURLConnection\\.getInputStream.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.URLConnection\\.getInputStream.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.http\\.client\\.HttpClient\\.execute.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.http\\.client\\.methods\\.HttpGet\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.http\\.client\\.methods\\.HttpPost\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.http\\.impl\\.client\\.CloseableHttpClient\\.execute.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.commons\\.httpclient\\.HttpClient\\.executeMethod.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.web\\.client\\.RestTemplate\\.exchange.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.web\\.client\\.RestTemplate\\.execute.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.web\\.client\\.RestTemplate\\.getForEntity.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.web\\.client\\.RestTemplate\\.getForObject.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.web\\.client\\.RestTemplate\\.postForEntity.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.web\\.client\\.RestTemplate\\.postForObject.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "okhttp3\\.OkHttpClient\\.newCall.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "okhttp3\\.Request\\.Builder\\.url.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.Socket\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "javax\\.net\\.SocketFactory\\.createSocket.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.DatagramSocket\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.jsoup\\.Jsoup\\.connect.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.jsoup\\.helper\\.HttpConnection\\.connect.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.squareup\\.okhttp\\.OkHttpClient\\.newCall.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.squareup\\.okhttp\\.Request\\.Builder\\.url.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "retrofit2\\.Retrofit\\.Builder\\.baseUrl.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.http\\.HttpClient\\.send.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "java\\.net\\.http\\.HttpClient\\.sendAsync.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "io\\.netty\\.bootstrap\\.Bootstrap\\.connect.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.commons\\.io\\.IOUtils\\.toByteArray.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.commons\\.io\\.IOUtils\\.toString.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.http\\.impl\\.client\\.HttpClientBuilder\\.build.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.http\\.client\\.fluent\\.Request\\.execute.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "SSTI",
+    "typeName": "CALL",
+    "priority": 8,
+    "category": "模板注入",
+    "description": "Server-Side Template Injection vulnerability detection",
+    "sinks": [
+      {
+        "typeName": "CALL",
+        "patterns": [
+          {
+            "method": "freemarker\\.template\\.Template\\.process.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "freemarker\\.template\\.Configuration\\.getTemplate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.thymeleaf\\.TemplateEngine\\.process.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.thymeleaf\\.context\\.Context\\.setVariable.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.thymeleaf\\.spring5\\.SpringTemplateEngine\\.process.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.thymeleaf\\.spring4\\.SpringTemplateEngine\\.process.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.velocity\\.VelocityEngine\\.evaluate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.velocity\\.VelocityEngine\\.mergeTemplate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.velocity\\.app\\.VelocityEngine\\.evaluate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.velocity\\.app\\.VelocityEngine\\.mergeTemplate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.velocity\\.Template\\.merge.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.velocity\\.app\\.Velocity\\.evaluate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.velocity\\.app\\.Velocity\\.mergeTemplate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.apache\\.velocity\\.VelocityContext\\.<init>.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.springframework\\.ui\\.velocity\\.VelocityEngineUtils\\.mergeTemplateIntoString.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "groovy\\.text\\.SimpleTemplateEngine\\.createTemplate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "groovy\\.text\\.SimpleTemplateEngine\\.createTemplate.*\\.make.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "groovy\\.text\\.GStringTemplateEngine\\.createTemplate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "groovy\\.text\\.GStringTemplateEngine\\.createTemplate.*\\.make.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "groovy\\.text\\.XmlTemplateEngine\\.createTemplate.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "groovy\\.text\\.XmlTemplateEngine\\.createTemplate.*\\.make.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.github\\.jknack\\.handlebars\\.Handlebars\\.compile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.github\\.jknack\\.handlebars\\.Template\\.apply.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.samskivert\\.mustache\\.Mustache\\.compiler.*\\.compile.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.samskivert\\.mustache\\.Template\\.execute.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "com\\.hubspot\\.jinjava\\.Jinjava\\.render.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.trimou\\.Mustache\\.render.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.mvel2\\.MVEL\\.eval.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.mvel2\\.MVEL\\.evalToString.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.mvel2\\.templates\\.TemplateRuntime\\.eval.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.mvel2\\.templates\\.CompiledTemplate\\.render.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.python\\.core\\.PyCode\\.eval.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.python\\.util\\.PythonInterpreter\\.eval.*",
+            "taintedParams": ["1"]
+          },
+          {
+            "method": "org\\.python\\.util\\.PythonInterpreter\\.exec.*",
+            "taintedParams": ["1"]
+          }
+        ]
+      }
+    ]
+  }
+
+]
