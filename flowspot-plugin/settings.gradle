@@ -1,0 +1,3 @@
+rootProject.name = 'flowspot-intellij-plugin'
+
+include 'flowspot-engine'
