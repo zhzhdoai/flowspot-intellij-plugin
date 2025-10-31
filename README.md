@@ -62,8 +62,14 @@ platformVersion=2024.3
 ### 3. 构建插件
 
 ```bash
-cd flowspot-plugin
-./gradlew clean build
+# 1. 构建 FlowSpot 分析引擎
+cd flowspot-omni-src-0.8
+sbt clean compile && sbt proguard && sbt copyDependencies
+
+# 2. 运行插件
+cd ../flowspot-plugin
+./gradlew compileJava
+./gradlew buildPlugin
 ```
 
 构建成功后，插件 ZIP 文件将生成在：
