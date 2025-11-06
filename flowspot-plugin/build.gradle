@@ -1,0 +1,179 @@
+/*
+ * Copyright 2024 FlowSpot plugin contributors
+ *
+ * This file is part of IntelliJ FlowSpot plugin.
+ *
+ * IntelliJ FlowSpot plugin is free software: you can redistribute it 
+ * and/or modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of 
+ * the License, or (at your option) any later version.
+ *
+ * IntelliJ FlowSpot plugin is distributed in the hope that it will
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied 
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with IntelliJ FlowSpot plugin.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
+// import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+
+buildscript {
+    ext.kotlin_version = '2.1.10'
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://repo.gradle.org/gradle/libs-releases"
+        }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij.platform" version "2.10.2"
+    id 'jacoco'
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'kotlin'
+apply plugin: 'java'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    // IntelliJ Platform 2023.3 要求目标兼容性为 17
+    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
+}
+
+intellijPlatform {
+    pluginConfiguration {
+        name = 'FlowSpot'
+        // 设置兼容性范围，支持从 2023.3 到未来版本
+        ideaVersion {
+            sinceBuild = "233"
+            // 设置一个很高的版本号以支持未来版本
+            untilBuild = "999.*"
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+runIde {
+    systemProperties(["jdk.util.zip.ensureTrailingSlash":false])
+    jvmArgs = [
+            '-XX:+UseG1GC',              // 使用G1垃圾回收器
+            '-XX:CompressedClassSpaceSize=128m'
+    ]
+}
+
+dependencies {
+    intellijPlatform {
+        def type = providers.gradleProperty('platformType')
+        def version = providers.gradleProperty('platformVersion')
+
+        create(type, version)
+
+        bundledPlugin 'com.intellij.java'
+
+        // testFramework TestFrameworkType.Platform.INSTANCE
+        // testFramework TestFrameworkType.Plugin.Java.INSTANCE
+    }
+    
+    // 基础工具库
+    implementation 'net.sf.saxon:Saxon-HE:12.5'
+    implementation 'org.jsoup:jsoup:1.18.3'
+    implementation 'info.clearthought:table-layout:4.3.0'
+    
+    // 使用IntelliJ平台的日志系统，避免Log4j冲突
+    // implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+    // implementation 'org.apache.logging.log4j:log4j-api:2.23.1'
+    // implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.23.1'
+    
+    // FlowSpot 分析引擎 - 复制自原项目
+    implementation files('../flowspot-omni-src-0.8/target/omni-0.1.0-SNAPSHOT.jar')
+    implementation files('../flowspot-omni-src-0.8/lib/jd-core-1.2.26.jar')
+    implementation files('../flowspot-omni-src-0.8/lib/jd-util-1.1.18.jar')
+    implementation files('../flowspot-omni-src-0.8/lib/json4s-jackson_3-4.0.7.jar')
+    
+    // FlowSpot 运行时依赖库 - 排除Log4j相关JAR以避免冲突
+    implementation fileTree(dir: '../flowspot-omni-src-0.8/target/lib', include: '*.jar', exclude: ['*log4j*', '*slf4j*'])
+    
+    // 测试依赖
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.10.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
+    testRuntimeOnly fileTree(dir: '../flowspot-omni-src-0.8/target/lib', include: '*.jar')
+    
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+// 配置测试任务支持 JUnit 4 和 JUnit 5
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter', 'junit-vintage'
+    }
+    
+    systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+}
+
+tasks.register('copyGradleProperties', Copy) {
+    description = 'Copy gradle.properties to project resources.'
+    from 'gradle.properties'
+    into 'build/resources/main/com/flowspot/intellij/common'
+    rename { _ -> 'version.properties' }
+}
+
+tasks.compileJava.dependsOn(copyGradleProperties)
+
+
+test {
+    def ideaHomePath = System.getenv().get('IDEA_HOME_PATH') ?: project.findProperty('idea.home.path')
+    if (ideaHomePath == null) {
+        throw new RuntimeException("Please set the 'idea.home.path' property at gradle.properties")
+    }
+    systemProperty "idea.home.path", ideaHomePath
+    finalizedBy jacocoTestReport
+    
+    // 确保测试使用 JDK 21
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = false
+        csv.required = false
+    }
+}
+
+wrapper {
+    gradleVersion = '8.13'
+}
+
+kotlin {
+    jvmToolchain(21)
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+    }
+}

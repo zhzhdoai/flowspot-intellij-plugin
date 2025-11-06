@@ -1,0 +1,6 @@
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <!-- 数据流线条：倾斜传递流动感，蓝色体现技术属性 -->
+  <path d="M3,8 L8,3 L13,8 L8,13 Z" fill="none" stroke="#4A90E2" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 漏洞定位点：绿色圆点精准落在数据流交叉核心，象征发现漏洞 -->
+  <circle cx="8" cy="8" r="1.5" fill="#50E3C2"/>
+</svg>

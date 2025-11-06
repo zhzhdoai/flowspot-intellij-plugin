@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<idea-plugin>
+    <name>FlowSpot Security Analyzer</name>
+    <description>
+        <![CDATA[
+        IntelliJ FlowSpot plugin provides advanced security vulnerability detection for Java code from within IntelliJ IDEA.
+        FlowSpot is a specialized static analysis tool that focuses on detecting security vulnerabilities through data flow analysis,
+        including but not limited to SQL injection, deserialization vulnerabilities, XSS, and other security-critical issues.
+        <p>
+        FlowSpot uses advanced taint analysis and data flow tracking to identify potential security vulnerabilities
+        by tracing how untrusted data flows through your application to sensitive operations.
+        </p>
+        <p>
+        IntelliJ FlowSpot plugin features:
+        <ul>
+            <li>Advanced security vulnerability detection</li>
+            <li>Data flow and taint analysis</li>
+            <li>IntelliJ IDEA 2023.3+ compatibility</li>
+            <li>Real-time vulnerability highlighting in code editor</li>
+            <li>Interactive vulnerability tree with detailed information</li>
+            <li>Navigate directly from vulnerability to source code</li>
+            <li>Vulnerability grouping by category, severity, file, and type</li>
+            <li>Detailed vulnerability descriptions and remediation guidance</li>
+            <li>Support for custom vulnerability patterns</li>
+            <li>Integration with IntelliJ's inspection framework</li>
+            <li>FlowSpot Analysis Actions:
+                <ul>
+                    <li>Analyze project files for security vulnerabilities</li>
+                    <li>Analyze selected files with FlowSpot</li>
+                    <li>Real-time vulnerability detection and reporting</li>
+                </ul>
+            </li>
+        </ul>
+        </p>
+        ]]>
+    </description>
+    <change-notes>
+        <![CDATA[<html>
+        <h3>1.0.0</h3>
+        <ul>
+            <li>Initial release of independent FlowSpot security analyzer plugin</li>
+            <li>Complete FlowSpot vulnerability detection and analysis</li>
+            <li>Interactive vulnerability tree with navigation and highlighting</li>
+            <li>Real-time code highlighting for detected vulnerabilities</li>
+            <li>FlowSpot-specific data models and converters</li>
+            <li>Support for FlowSpot rule selection and customization</li>
+            <li>Independent from SpotBugs - no external dependencies</li>
+        </ul>
+        <html>]]>
+    </change-notes>
+    <id>com.flowspot.intellij</id>
+    <version>@VERSION@</version>
+    <vendor email="support@flowspot.com" url="https://flowspot.com">FlowSpot Security</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow anchor="bottom" secondary="true" id="FlowSpot" icon="/icons/flowspot-icon.svg"
+                    factoryClass="com.flowspot.intellij.core.FlowSpotToolWindowFactory"/>
+        
+        <toolWindow anchor="right" secondary="false" id="FlowSpotDataFlow" icon="/icons/dataflow-icon.svg"
+                    factoryClass="com.flowspot.intellij.core.FlowSpotDataFlowToolWindowFactory"/>
+
+        <projectService serviceImplementation="com.flowspot.intellij.core.FlowSpotConfigurationManager"/>
+        
+        <!-- 应用级服务 -->
+        <applicationService serviceImplementation="com.flowspot.intellij.service.FlowSpotHighlightService"/>
+        <applicationService serviceImplementation="com.flowspot.intellij.service.impl.GlobalSinkRulesServiceImpl"
+                            serviceInterface="com.flowspot.intellij.service.GlobalSinkRulesService"/>
+        
+        <!-- 启动时初始化全局 Sink 规则 -->
+        <postStartupActivity implementation="com.flowspot.intellij.startup.GlobalSinkRulesInitializer"/>
+        
+        <!-- TODO: 需要实现 FlowSpotCodeInspection 类
+        <localInspection language="JAVA" 
+                         implementationClass="com.flowspot.intellij.service.FlowSpotCodeInspection"
+                         displayName="FlowSpot Vulnerability Detection"
+                         groupName="FlowSpot"
+                         enabledByDefault="true"/>
+        -->
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="FlowSpot.AnalysisFinished"
+                           displayType="TOOL_WINDOW"
+                           toolWindowId="FlowSpot"
+                           isLogByDefault="false"
+                           key="notification.group.analysis.finished"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="FlowSpot.AnalyzeError"
+                           displayType="STICKY_BALLOON"
+                           isLogByDefault="true"
+                           key="notification.group.analyze.error"/>
+    </extensions>
+
+    <actions>
+        <group id="FlowSpot.AnalyzeMenu" text="FlowSpot" popup="true">
+            <add-to-group anchor="last" group-id="AnalyzeMenu"/>
+            <add-to-group anchor="after" group-id="EditorPopupMenu" relative-to-action="AnalyzeMenu"/>
+            <add-to-group anchor="after" group-id="ProjectViewPopupMenu" relative-to-action="AnalyzeMenu"/>
+        </group>
+
+        <group id="FlowSpot.ToolBarActions" text="FlowSpot Analysis Actions" popup="true">
+            <!-- FlowSpot Analysis Actions -->
+            <action id="FlowSpot.ProjectFilesAction"
+                    class="com.flowspot.intellij.actions.AnalyzeProjectFilesAction"
+                    text="Analyze Project Files"
+                    description="Run FlowSpot vulnerability analysis on all project files."
+                    icon="/icons/analyze-project-icon.png">
+
+                <add-to-group group-id="FlowSpot.AnalyzeMenu" anchor="last"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt P"/>
+            </action>
+            
+            <!-- Global Sink Rules Configuration -->
+            <action id="FlowSpot.ConfigureGlobalSinkRules"
+                    class="com.flowspot.intellij.actions.ConfigureGlobalSinkRulesAction"
+                    text="Configure Global Sink Rules"
+                    description="Configure global sink rules for vulnerability detection">
+                <add-to-group group-id="FlowSpot.AnalyzeMenu" 
+                              anchor="after" 
+                              relative-to-action="FlowSpot.ProjectFilesAction"/>
+            </action>
+
+<!--            <action id="FlowSpot.SelectedFilesAction"-->
+<!--                    class="com.flowspot.intellij.actions.AnalyzeSelectedFilesAction"-->
+<!--                    text="Analyze Selected Files"-->
+<!--                    description="Run FlowSpot vulnerability analysis on selected files."-->
+<!--                    icon="/icons/analyze-selected-icon.png">-->
+
+<!--                <add-to-group group-id="FlowSpot.AnalyzeMenu" anchor="last"/>-->
+<!--                <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt S"/>-->
+<!--            </action>-->
+
+            <separator/>
+
+            <action id="FlowSpot.StopAction"
+                    class="com.flowspot.intellij.actions.FlowSpotStopAction"
+                    text="Stop the Analysis Run"
+                    description="Stop the currently running analysis."
+                    icon="/icons/stop-icon.png"/>
+
+            <action id="FlowSpot.CloseAction"
+                    class="com.flowspot.intellij.actions.FlowSpotClearAction"
+                    text="Clear and Close FlowSpot Tool Window"
+                    description="Clear and close the FlowSpot tool window panel."
+                    icon="/icons/clear-icon.png"/>
+
+        </group>
+        
+        <!-- FlowSpot 工具栏按钮 -->
+        <action id="FlowSpot.ToolWindowAction"
+                class="com.flowspot.intellij.actions.FlowSpotToolWindowAction"
+                text="FlowSpot Tool Window"
+                description="Show/Hide FlowSpot Tool Window"
+                icon="/icons/flowspot-icon.svg">
+            
+            <!-- 添加到主工具栏最右侧 -->
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+            
+            <!-- 添加到导航栏工具栏 -->
+            <add-to-group group-id="NavBarToolBar" anchor="last"/>
+            
+            <!-- 添加到View菜单的Tool Windows子菜单 -->
+            <add-to-group group-id="ViewMenu" anchor="after" relative-to-action="ActivateToolWindowActions"/>
+            
+            <!-- 添加快捷键 -->
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt F"/>
+            
+        </action>
+
+    </actions>
+</idea-plugin>

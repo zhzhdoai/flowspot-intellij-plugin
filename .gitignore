@@ -1,0 +1,422 @@
+# FlowSpot IntelliJ Plugin - .gitignore
+# Comprehensive ignore file for IntelliJ plugin and Scala/SBT projects
+
+#######################
+# IntelliJ IDEA
+#######################
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# IntelliJ Platform SDK
+.intellijPlatform/
+
+# User-specific IntelliJ settings
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle plugin
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# CMake
+cmake-build-*/
+
+# File-based project format
+*.iws
+
+#######################
+# Gradle
+#######################
+.gradle/
+build/
+!gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Gradle cache
+.gradle-cache/
+
+# Gradle build outputs
+/flowspot-plugin/build/
+/flowspot-plugin/.gradle/
+
+#######################
+# SBT (Scala Build Tool)
+#######################
+target/
+project/target/
+project/project/
+.bsp/
+.metals/
+.bloop/
+
+# SBT specific
+dist/*
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+# FlowSpot engine build outputs
+/flowspot-omni-src-0.8/target/
+/flowspot-omni-src-0.8/project/target/
+/flowspot-omni-src-0.8/project/project/
+
+#######################
+# Java
+#######################
+*.class
+*.jar
+!gradle-wrapper.jar
+!**/lib/*.jar
+!**/flowspot-omni-src-0.8/lib/*.jar
+
+# Package Files
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# JVM Crash logs
+java_error_in_*.log
+
+#######################
+# Kotlin
+#######################
+*.kt.swp
+*.kt~
+
+#######################
+# macOS
+#######################
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+#######################
+# Windows
+#######################
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+#######################
+# Linux
+#######################
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+#######################
+# Logs
+#######################
+*.log
+logs/
+*.log.*
+log/
+
+# FlowSpot analysis logs
+.flowspot/
+.omni/
+flowspot-analysis-*.log
+flowspot_analysis_*.log
+
+#######################
+# Test Results
+#######################
+test-results/
+test-output/
+*.test
+*.spec
+
+# JUnit
+junit*.properties
+TEST-*.xml
+
+# Coverage reports
+coverage/
+*.lcov
+.nyc_output/
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# JaCoCo
+jacoco.exec
+jacoco/
+.jacoco/
+
+#######################
+# Temporary Files
+#######################
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.#*
+\#*#
+*.bak
+*.backup
+*.orig
+
+#######################
+# Plugin Distribution
+#######################
+/flowspot-plugin/build/distributions/*.zip
+/flowspot-plugin/build/libs/*.jar
+
+#######################
+# Dependencies
+#######################
+node_modules/
+bower_components/
+
+#######################
+# Environment & Config
+#######################
+.env
+.env.local
+.env.*.local
+*.properties.local
+local.properties
+
+# Sensitive configuration
+secrets.yml
+secrets.properties
+*.key
+*.pem
+*.p12
+*.jks
+
+#######################
+# Database
+#######################
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+#######################
+# Documentation Build
+#######################
+docs/_build/
+docs/.doctrees/
+site/
+
+#######################
+# IDE - VSCode
+#######################
+.vscode/
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+#######################
+# IDE - Eclipse
+#######################
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+.project
+.classpath
+.factorypath
+.buildpath
+.target
+.tern-project
+.texlipse
+.springBeans
+.recommenders/
+.apt_generated/
+.apt_generated_test/
+
+#######################
+# NetBeans
+#######################
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+#######################
+# Maven (if used)
+#######################
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+#######################
+# ProGuard
+#######################
+proguard/
+proguard-project.txt
+mappings.txt
+
+#######################
+# Compiled Output
+#######################
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+
+#######################
+# Package managers
+#######################
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+#######################
+# Misc
+#######################
+*.pid
+*.seed
+*.pid.lock
+.npm
+.eslintcache
+.node_repl_history
+.yarn-integrity
+
+# Backup files
+*~
+*.backup
+*.old
+
+# Experiment files
+exp.txt
+experiment/
+scratch/
+
+# Generated files
+generated/
+gen/
+
+# Compiled resources
+/flowspot-plugin/src/main/resources/rt.jar
+
+# Version properties
+version.properties
+
+#######################
+# Project Specific
+#######################
+# FlowSpot specific ignores
+/flowspot-omni-src-0.8/target/
+/flowspot-omni-src-0.8/lib_managed/
+/flowspot-omni-src-0.8/src_managed/
+/flowspot-omni-src-0.8/project/boot/
+/flowspot-omni-src-0.8/*.zip
+
+# Plugin sandbox
+sandbox/
+
+# Build artifacts
+artifacts/
+
+# Benchmark results
+benchmarks/
+
+# Performance test results
+perf/
+
+#######################
+# Keep Important Files
+#######################
+# Keep gradle wrapper
+!gradle/wrapper/gradle-wrapper.jar
+!gradlew
+!gradlew.bat
+
+# Keep library JARs
+!lib/*.jar
+!**/lib/*.jar
+
+# Keep specific config files
+!**/config/**
