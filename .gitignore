@@ -379,7 +379,7 @@ generated/
 gen/
 
 # Compiled resources
-/flowspot-plugin/src/main/resources/rt.jar
+# /flowspot-plugin/src/main/resources/rt.jar (需要推送到远程)
 
 # Version properties
 version.properties
